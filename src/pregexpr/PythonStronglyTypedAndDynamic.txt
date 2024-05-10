@@ -1,0 +1,3 @@
+Python is both strongly typed and dynamic. It's dynamic because you can call any function with any type arguments, and a mismatched parameter type won't be detected until runtime. A static language would detect that problem at compile time (or at least, before runtime).
+
+However, number and string variables cannot be added together silently without explicit conversion.

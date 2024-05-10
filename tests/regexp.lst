@@ -1,0 +1,50 @@
+Website URL substring
+.*(/.*)
+www.himom.com/byebye -> /byebye
+
+File Filtering
+(extension only)
+.*\.(jpg|jpeg)
+(name & extension)
+(\w*-\w*\.)(jpg|jpeg)
+
+Left pad 12.jpg with leading zeros to 4 places:
+s / \b\d{2}\. / 00$0
+(or)
+$_ = sprintf("%04d", $_);
+
+Remove leading zeros
+s / ^0* //
+
+Reformat phone numbers
+s / (\d{3})(\d{3})(\d{4}) / ($1)$2-$3
+
+Reformat sokoban solutions
+"Solution: 321 Moves, 76 Pushes, 45 Pushes In Line, 23 Crate Changes, 4 Push Sessions"
+"321 Moves, 76 Pushes, 45 Pushes In Line, 23 Crate Changes, 4 Push Sessions"
+"321/76/45/23/4";
+"321 76 45 23 4";
+"[? a-zA-Z,/]*(?<moves>\\d+)[? a-zA-Z,/]*(?<pushes>\\d+)[? a-zA-Z,/]*(?<lines>\\d+)[? a-zA-Z,/]*(?<changes>\\d+)[? a-zA-Z,/]*(?<sessions>\\d+)[? a-zA-Z,/]*"
+
+Matching *.txt
+.*\.txt$
+
+Add a path to a standard md5sum file:
+s / ([a-z\d]{32}[ ]{2}) / $1 /media/SAIC-05to07/SAIC-MikeC/
+
+Replace foo++ and foo-- with ++foo and --foo,
+also handling foo->m_foo++ with ++foo->m_foo:
+s / ([a-zA-Z][a-zA-Z\d_\->]*)(\+\+|--) / $2$1
+
+(or) ([a-zA-Z][\w\->]*)(\+\+|--)
+
+Decimal number with 3 digit precision 
+((0)|([1-9]\d*))\.\d\d\d
+
+Replace "?" with "'" (apostrophes) except legitimate ones at the end of sentences
+
+((a-zA-Z)?\?)(?=\w)
+
+maybe use this for after "?"
+(^ !?\r\n)
+
