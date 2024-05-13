@@ -3,6 +3,8 @@
 # jlregexpr.jl
 # Regex replacer 1.0
 #
+# Uncopyright (u)2019-2024, Shaun Green
+#
 
 #=
 exec julia --color=yes --startup-file=no -e 'include(popfirst!(ARGS))' \
