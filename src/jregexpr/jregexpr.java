@@ -1,3 +1,10 @@
+/*
+ * jregexpr.java
+ * Regex replacer 1.0
+ *
+ * Uncopyright (u)2019-2024, Shaun Green
+ */
+
 import java.io.PrintStream;
 
 public class jregexpr {

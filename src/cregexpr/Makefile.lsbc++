@@ -1,0 +1,7 @@
+TARGET=cregexpr
+$(TARGET): 
+	lsbc++ -Wall -I/opt/lsb/include -L/opt/lsb/lib64 -lgcc_s -o $(TARGET) $(TARGET).cpp
+	strip -v --strip-unneeded $(TARGET)
+
+clean:
+	rm $(TARGET)

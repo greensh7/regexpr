@@ -1,5 +1,7 @@
 // gregexpr2.go
 // Regex replacer
+//
+// Uncopyright (u)2019-2024, Shaun Green
 
 package main
 
