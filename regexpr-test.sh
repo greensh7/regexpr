@@ -1,6 +1,6 @@
 #!/bin/bash
 ########################################################################################
-# $Id: Regexpr Tester  ver 1.7c
+# $Id: Regexpr Tester  ver 1.7d
 #
 # USAGE:
 # ./regexpr-test.sh
@@ -21,6 +21,8 @@
 # 2023/08/08: Changed/updated exits in language detectors to variables.
 # 2024/02/13: Added the regexp2 into the Go output.
 # 2024/02/25: Added the Qt/C++ lib versions to the Qt/C++ output.
+# 2024/05/14: Removed the dependency check for the compiled java class, switched to use
+#             the source Luke :)
 #
 # Uncopyright (u)2019-2024, Shaun Green
 ########################################################################################
@@ -127,9 +129,9 @@ elif java --version &> /dev/null; then
 elif java -version &> /dev/null; then
 	Java=java
 fi
-if [ -n "$Java" ] && [ ! -s ./jregexpr.class ]; then
+if [ -n "$Java" ] && [ ! -s src/jregexpr/jregexpr.java ]; then
 	echo
-	echo "\"jregexpr.class\" Java Regexp Replacer not found"
+	echo "\"jregexpr.java\" Java Regexp Replacer not found"
 	Java=""
 fi
 if ! command -v sed >/dev/null 2>&1; then
@@ -238,8 +240,9 @@ for f in "${vf[@]}"; do
 	# Comment 3 that don't support PCRE; lookahead/behind
 	echo "Sed:           "`sed -r "s/$rx//" <<< "$f"`
 	echo "Awk:           "`awk '{sub(/'$rx'/,"")}; 1' <<< "$f"`
-	# Comment 2 that also don't support back references in the regex, e.g. '(\d)(\1+)?'
-	[ -n "$Java" ] && echo "Java:          "`java jregexpr "$rx" "$f"`
+	# Comment 2 that may not support back references in the regex, e.g. '(\d)(\1+)?'
+	# but also note that the references may not be \1 and use $1 instead
+	[ -n "$Java" ] && echo "Java:          "`java src/jregexpr/jregexpr.java "$rx" "$f"`
 	[ -n "$Rust" ] && echo "Rust1.67.0:    "`./rregexpr "$rx" "$f"`
 
 	((++count))
