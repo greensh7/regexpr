@@ -21,8 +21,9 @@
 # 2023/08/08: Changed/updated exits in language detectors to variables.
 # 2024/02/13: Added the regexp2 into the Go output.
 # 2024/02/25: Added the Qt/C++ lib versions to the Qt/C++ output.
-# 2024/05/14: Removed the dependency check for the compiled java class, switched to use
-#             the source Luke :)
+# 2024/05/15: Changed the dependency check for the compiled java class to use the
+#             source Luke (.java file :) Updated java source to be run in subshell for
+#             java versions that don't support path to class (src/jregexpr/jregexpr).
 #
 # Uncopyright (u)2019-2024, Shaun Green
 ########################################################################################
@@ -242,7 +243,7 @@ for f in "${vf[@]}"; do
 	echo "Awk:           "`awk '{sub(/'$rx'/,"")}; 1' <<< "$f"`
 	# Comment 2 that may not support back references in the regex, e.g. '(\d)(\1+)?'
 	# but also note that the references may not be \1 and use $1 instead
-	[ -n "$Java" ] && echo "Java:          "`java src/jregexpr/jregexpr.java "$rx" "$f"`
+	[ -n "$Java" ] && echo "Java:          "`( cd src/jregexpr; java jregexpr "$rx" "$f" )`
 	[ -n "$Rust" ] && echo "Rust1.67.0:    "`./rregexpr "$rx" "$f"`
 
 	((++count))
