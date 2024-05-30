@@ -1,10 +1,10 @@
 # regexpr
 
-## This contains the sources for CLI regular expression tools (find/replace/match) in all the major languages.
+## This contains the sources for CLI regular expression tools supporting find/replace/match in all the major languages.
 
 ### Description
 
-Welcome aboard fellow regexp developers/padawans/regexperts alike! This is where you will find scripts which you are free to contribute to.
+Welcome aboard fellow regexp developers, padawans and regexperts alike! This is where you will find scripts which you are free to contribute to.
 You can contribute by enhancing the existing sources (several need the "-m" arg for match) or simply submitting your own scripts in tests/ written in any language old or new, which you think would be amazing for other people to see.
 
 ### Instructions
@@ -27,10 +27,10 @@ World Hello
 ```
 
 Regex is a powerful text processing language and often replaces using several conditionals when developing typical input validation and text parsing functions.
-As seasoned regexperts know, there is no good replacements for regex negative lookbehinds/lookaheads.
+As seasoned regexperts know, there is no good replacements for regex negative lookbehinds and lookaheads.
 
-My sincere hope is that these tools help coders write code more efficiently that's clearer to read and understand in their primary language of choice.
-At the very least, maybe they serve as a simple how-to CLI code in a new language since these go far beyond simple Hello World examples.
+My sincere hope is that these tools help coders develop code more efficiently that's clearer to read and understand in their primary language of choice.
+At the very least, maybe this can serve as a simple how-to CLI code in a new language since these go far beyond simple Hello World examples.
 
 ### Contribution Guidelines
 
