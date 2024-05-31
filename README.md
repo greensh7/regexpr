@@ -1,6 +1,6 @@
 # regexpr
 
-## This contains the sources for CLI regular expression tools supporting find/replace/match in all the major languages.
+## Contains the sources for CLI regular expression tools supporting find/replace/match in all the major languages.
 
 ### Description
 
@@ -15,7 +15,7 @@ You can contribute by enhancing the existing sources (several need the "-m" arg 
 
 ### Notes
 
-Note that each of these regexpr tools can be used independently, and were written to accept identical regular expressions.
+Each of these regexpr tools can be used independently, and were written to accept identical regular expressions.
 Several languages don't have full PCRE2 compliant regex support for lookarounds, e.g. C++ STL (see the tests/HelloWorld.sh example).
 Additionally, several languages use $1 instead of \1 for first (and all) backreferences, e.g. Go, Java, etc:
 ```
