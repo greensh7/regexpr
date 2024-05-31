@@ -9,10 +9,10 @@ echo "BASH grep match:    ${m//$'\n'/ }"
 echo
 echo "Perl:              "`perl -pe "s/$rx/-/" <<< "$text"`
 echo "Qt 5.15.8:         "`../qregexpr "$rx" "$text" '-'`
-echo "Go 1.16.5 regexp:  "`../gregexpr "$rx" "$text" '-'`
+echo "Go 1.16.5 regexp2: "`../gregexpr2 "$rx" "$text" '-'`
 echo "Python:            "`../pregexpr.py "$rx" "$text" '-'`
 echo "Javascript:        "`node ../jsregexpr.js "$rx" "$text" '-'`
-echo "Java:              "`java jregexpr "$rx" "$text" '-'`
+echo "Java:              "`( cd ../src/jregexpr; java jregexpr "$rx" "$text" '-')`
 echo
 
 echo "Lookaround tests using positive lookbehind/lookahead"
@@ -24,10 +24,10 @@ echo "BASH grep match:    ${m//$'\n'/ }"
 echo
 echo "Perl:              "`perl -pe "s/$rx//g" <<< "$text"`
 echo "Qt 5.15.8:         "`../qregexpr "$rx" "$text"`
-echo "Go 1.16.5 regexp:  "`../gregexpr "$rx" "$text"`
+echo "Go 1.16.5 regexp2: "`../gregexpr2 "$rx" "$text"`
 echo "Python:            "`../pregexpr.py "$rx" "$text"`
 echo "Javascript:        "`node ../jsregexpr.js "$rx" "$text"`
-echo "Java:              "`java jregexpr "$rx" "$text"`
+echo "Java:              "`( cd ../src/jregexpr; java jregexpr "$rx" "$text" )`
 echo
 
 echo "Lookaround tests using negative lookbehind/lookahead"
@@ -38,10 +38,10 @@ echo "BASH grep match:    ${m//$'\n'/ }"
 echo
 echo "Perl:              "`perl -pe "s/$rx//g" <<< "$text"`
 echo "Qt 5.15.8:         "`../qregexpr "$rx" "$text"`
-echo "Go 1.16.5 regexp:  "`../gregexpr "$rx" "$text"`
+echo "Go 1.16.5 regexp2: "`../gregexpr2 "$rx" "$text"`
 echo "Python:            "`../pregexpr.py "$rx" "$text"`
 echo "Javascript:        "`node ../jsregexpr.js "$rx" "$text"`
-echo "Java:              "`java jregexpr "$rx" "$text"`
+echo "Java:              "`( cd ../src/jregexpr; java jregexpr "$rx" "$text" )`
 echo
 
 exit 0

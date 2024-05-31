@@ -1,0 +1,12 @@
+*.code-workspace
+tests/*.log
+tests/*tfvars*
+*cregexpr
+*gregexpr2
+*jregexpr.class
+*qregexpr
+*rregexpr
+src/rregexpr/.git
+src/rregexpr/target
+src/qregexpr/Makefile
+*.pro.user*
