@@ -55,9 +55,9 @@ if ! command -v ./$golang >/dev/null 2>&1; then
 	echo "\"$golang\" Go Regexp2 Replacer not found"
 	golang=${golang%2}
 	if ! command -v ./$golang >/dev/null 2>&1; then
-	echo
-	echo "\"$golang\" Go Regexp Replacer not found"
-	golang=""
+		echo
+		echo "\"$golang\" Go Regexp Replacer not found"
+		golang=""
 	fi
 fi
 Qt="Qt "
@@ -168,8 +168,8 @@ else
 	# Detect GLIBC ver and show warning
 	glibsys=`ldd --version | grep -Pom1 '^.+\s\K[\d.]+'`
 	if (( `echo "2.28 >= $glibsys" | bc -l` )); then
-	echo
-	echo "Older GLIBC version detected; recompile a static \"rregexpr\""
+		echo
+		echo "Older GLIBC version detected; recompile a static \"rregexpr\""
 	fi
 fi
 
@@ -195,45 +195,45 @@ rx='pp=fd:c,|\/fd:c|fd:c\/|(\/|,?(vf=)?pp=)fd:c$'
 f=""
 count=1
 for f in "${vf[@]}"; do
-# vf index/filter chain
-echo
-echo "vf$count:           $f"
-#
-# vf deint filter to be removed
-#
-fr=`grep -Pom1 "$rx" <<< "$f"`
-echo "Removed:       $fr"
-#echo "Filter removed:"`./gregexpr "$rx" "$f" -m`
-#echo "Filter removed:"`./qregexpr -m -n "$rx" "$f"`
-#echo "Filter removed:"`./regexpr "$rx" "$f" -m`
-#echo "Filter removed: $(perl -pe "(\$_)=/($rx)/" <<< "$f")"
-# This only needs to be here for mcedit BASH code syntax if previous perl statement used
-# The Perl match syntax seems difficult, so added a -m switch to do same:
-echo
-#
-# vf deint filter removals
-#
-# For BASH parameter expansion all "\" must be escaped in the replacement string
-fr="${fr//\\/\\\\}"
-echo "BASH ParEx:    ${f//$fr}"
-# Static binaries for Qt/C++ should work on most modern 64-bit Linux distros
-[ -n "$Qt" ] && echo "$Qt:    "`./qregexpr -n "$rx" "$f"`
-# These lang cannot handle \K (keep out of match) in regex and backticks "`" in text
-[ -n "$golang" ] && b="${golang//pr/p}" && echo "Go ${b#g}:    "`./$golang "$rx" "$f"`
-[ -n "$py" ] && echo "Python:        "`./pregexpr.py "$rx" "$f"`
-#echo "Python:        "`$py -c "import re; print(re.sub(r'$rx','','$f'))"`
-[ -n "$jl" ] && echo "Julia:         "`./jlregexpr.jl "$rx" "$f"`
-[ -n "$JS" ] && echo "Javascript:    "`$JS ./jsregexpr.js "$rx" "$f"`
-[ -n "$Perl" ] && echo "Perl:          "`perl -pe "s/$rx//" <<< "$f"`
-[ -n "$Ruby" ] && echo "Ruby:          "`ruby -e "puts '$f'.gsub /$rx/, ''"`
-# These don't support PCRE or lookarounds
-[ -n "$Cpp" ] && echo "$Cpp:    "`./cregexpr "$rx" "$f"`
-echo "Sed:           "`sed -r "s/$rx//" <<< "$f"`
-echo "Awk:           "`awk '{sub(/'$rx'/,"")}; 1' <<< "$f"`
-# These may not support back references in the regex, e.g. '(\d)(\1+)?'
-# but also note that the references may not be \1 and use $1 instead
-[ -n "$Java" ] && echo "Java:          "`( cd src/jregexpr; java jregexpr "$rx" "$f" )`
-[ -n "$Rust" ] && echo "Rust:          "`./rregexpr "$rx" "$f"`
+	# vf index/filter chain
+	echo
+	echo "vf$count:           $f"
+	#
+	# vf deint filter to be removed
+	#
+	fr=`grep -Pom1 "$rx" <<< "$f"`
+	echo "Removed:       $fr"
+	#echo "Filter removed:"`./gregexpr "$rx" "$f" -m`
+	#echo "Filter removed:"`./qregexpr -m -n "$rx" "$f"`
+	#echo "Filter removed:"`./regexpr "$rx" "$f" -m`
+	#echo "Filter removed: $(perl -pe "(\$_)=/($rx)/" <<< "$f")"
+	# This only needs to be here for mcedit BASH code syntax if previous perl statement used
+	# The Perl match syntax seems difficult, so added a -m switch to do same:
+	echo
+	#
+	# vf deint filter removals
+	#
+	# For BASH parameter expansion all "\" must be escaped in the replacement string
+	fr="${fr//\\/\\\\}"
+	echo "BASH ParEx:    ${f//$fr}"
+	# Binary should work on most modern 64-bit Linux distros
+	[ -n "$Qt" ] && echo "$Qt:    "`./qregexpr -n "$rx" "$f"`
+	# Cannot handle \K (keep out of match) in regex and backticks "`" in text
+	[ -n "$golang" ] && b="${golang//pr/p}" && echo "Go ${b#g}:    "`./$golang "$rx" "$f"`
+	[ -n "$py" ] && echo "Python:        "`./pregexpr.py "$rx" "$f"`
+	#echo "Python:     "`$py -c "import re; print(re.sub(r'$rx','','$f'))"`
+	[ -n "$jl" ] && echo "Julia:         "`./jlregexpr.jl "$rx" "$f"`
+	[ -n "$JS" ] && echo "Javascript:    "`$JS ./jsregexpr.js "$rx" "$f"`
+	[ -n "$Perl" ] && echo "Perl:          "`perl -pe "s/$rx//" <<< "$f"`
+	[ -n "$Ruby" ] && echo "Ruby:          "`ruby -e "puts '$f'.gsub /$rx/, ''"`
+	# Comment 3 that don't support PCRE; lookahead/behind
+	[ -n "$Cpp" ] && echo "$Cpp:    "`./cregexpr "$rx" "$f"`
+	echo "Sed:           "`sed -r "s/$rx//" <<< "$f"`
+	echo "Awk:           "`awk '{sub(/'$rx'/,"")}; 1' <<< "$f"`
+	# Comment 2 that may not support back references in the regex, e.g. '(\d)(\1+)?'
+	# but also note that the references may not be \1 and use $1 instead
+	[ -n "$Java" ] && echo "Java:          "`( cd src/jregexpr; java jregexpr "$rx" "$f" )`
+	[ -n "$Rust" ] && echo "Rust:          "`./rregexpr "$rx" "$f"`
 
 ((++count))
 done
