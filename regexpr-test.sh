@@ -1,12 +1,12 @@
 #!/bin/bash
 ########################################################################################
-# $Id: Regexpr Tester  ver 1.7d
+# $Id: Regexpr Tester  ver 1.7e
 #
 # USAGE:
 # ./regexpr-test.sh
 #
-# Displays the results of removing a deinterlace video filter using a simple, medium length
-# regular expression featuring grouping, alternation, etc.
+# Displays the results of removing a deinterlace video filter from various filter chain
+# examples using one simple regular expression featuring grouping, alternation, etc.
 #
 # The Inputs section can be modified to demonstrate any unique results from
 # the languages, thereby helping to write a language neutral regexp.
@@ -24,6 +24,8 @@
 # 2024/05/15: Changed the dependency check for the compiled java class to use the
 #             source Luke (.java file :) Updated java source to be run in subshell for
 #             java versions that don't support path to class (src/jregexpr/jregexpr).
+# 2024/09/26: Reverted the java dependency check back to the class, since src no longer
+#             working on RHEL8. Moved C++ down; regex still doesn't support lookarounds.
 #
 # Uncopyright (u)2019-2024, Shaun Green
 ########################################################################################
@@ -118,9 +120,9 @@ else
 	echo "\"nodejs\" or \"node\" Javascript package dependency not met"
 fi
 if [ -n "$JS" ] && ! command -v ./jsregexpr.js >/dev/null 2>&1; then
-		echo
-		echo "\"jsregexpr.js\" Javascript Regexp Replacer not found"
-		JS=""
+	echo
+	echo "\"jsregexpr.js\" Javascript Regexp Replacer not found"
+	JS=""
 fi
 if ! command -v java >/dev/null 2>&1; then
 	echo
@@ -130,9 +132,9 @@ elif java --version &> /dev/null; then
 elif java -version &> /dev/null; then
 	Java=java
 fi
-if [ -n "$Java" ] && [ ! -s src/jregexpr/jregexpr.java ]; then
+if [ -n "$Java" ] && [ ! -s ./jregexpr.class ]; then
 	echo
-	echo "\"jregexpr.java\" Java Regexp Replacer not found"
+	echo "\"jregexpr.class\" Java Regexp Replacer not found"
 	Java=""
 fi
 if ! command -v sed >/dev/null 2>&1; then
@@ -185,23 +187,10 @@ vf[9]='vf=pp=fd:c'
 rx='pp=fd:c,|\/fd:c|fd:c\/|(\/|,?(vf=)?pp=)fd:c$'
 # Rust version regex (no support for escaped "/")
 #rrx='pp=fd:c,|/fd:c|fd:c/|(/|,?(vf=)?pp=)fd:c$'
-# Regex with look behind/ahead
+# Regex with positive look behind/ahead
 #rx='(?<=vf=)pp=fd:c(,|\/)?|(,|\/)?(vf=)?(pp=)?fd:c(?=,|\/|$)'
 #rx='(\/|,?pp=)fd:c$|pp=fd:c,|fd:c\/|\/fd:c'
 #rx=',?pp=fd:c($|[^\/,])|pp=fd:c,|fd:c\/|\/fd:c'
-
-# Filters with "\" instead of "/"
-#vf[1]='vf=pp=fd:c\hb\vb\fd\c'
-#vf[2]='vf=pp=hb\fd:c\vb'
-#vf[3]='vf=pp=hb\vb\fd:c'
-#vf[4]='vf=pp=hb\vb\fd:c,crop'
-#vf[5]='vf=crop,pp=fd:c\hb\vb'
-#vf[6]='vf=pp=fd:c,crop'
-#vf[7]='vf=hue,pp=fd:c,crop'
-#vf[8]='vf=crop,pp=fd:c'
-#vf[9]='vf=pp=fd:c'
-#rx='pp=fd:c,|\\fd:c|fd:c\\|(\\|,?(vf=)?pp=)fd:c$'
-
 
 f=""
 count=1
@@ -231,7 +220,6 @@ for f in "${vf[@]}"; do
 	[ -n "$Qt" ] && echo "$Qt:    "`./qregexpr -n "$rx" "$f"`
 	# Cannot handle \K (keep out of match) in regex and backticks "`" in text
 	[ -n "$golang" ] && b="${golang//pr/p}" && echo "Go ${b#g}:    "`./$golang "$rx" "$f"`
-	[ -n "$Cpp" ] && echo "$Cpp:    "`./cregexpr "$rx" "$f"`
 	[ -n "$py" ] && echo "Python:        "`./pregexpr.py "$rx" "$f"`
 	#echo "Python:     "`$py -c "import re; print(re.sub(r'$rx','','$f'))"`
 	[ -n "$jl" ] && echo "Julia:         "`./jlregexpr.jl "$rx" "$f"`
@@ -239,14 +227,15 @@ for f in "${vf[@]}"; do
 	[ -n "$Perl" ] && echo "Perl:          "`perl -pe "s/$rx//" <<< "$f"`
 	[ -n "$Ruby" ] && echo "Ruby:          "`ruby -e "puts '$f'.gsub /$rx/, ''"`
 	# Comment 3 that don't support PCRE; lookahead/behind
+	[ -n "$Cpp" ] && echo "$Cpp:    "`./cregexpr "$rx" "$f"`
 	echo "Sed:           "`sed -r "s/$rx//" <<< "$f"`
 	echo "Awk:           "`awk '{sub(/'$rx'/,"")}; 1' <<< "$f"`
 	# Comment 2 that may not support back references in the regex, e.g. '(\d)(\1+)?'
 	# but also note that the references may not be \1 and use $1 instead
 	[ -n "$Java" ] && echo "Java:          "`( cd src/jregexpr; java jregexpr "$rx" "$f" )`
-	[ -n "$Rust" ] && echo "Rust1.67.0:    "`./rregexpr "$rx" "$f"`
+	[ -n "$Rust" ] && echo "Rust:          "`./rregexpr "$rx" "$f"`
 
-	((++count))
+((++count))
 done
 
 exit 0
