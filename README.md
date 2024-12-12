@@ -19,7 +19,8 @@ Each of these regexpr tools can be used independently, and were written to accep
 Several languages don't have full PCRE2 compliant regex support for lookarounds, e.g. C++ STL (see the tests/HelloWorld.sh example).
 Additionally, several languages use $1 instead of \1 for first (and all) backreferences, e.g. Go, Java, etc:
 ```
-go run src/gregexpr2/gregexpr.go '(\S+)\s(\S+)' 'Hello World' '$2 $1'
+cd src/gregexpr2
+go run gregexpr2.go '(\S+)\s(\S+)' 'Hello World' '$2 $1'
 ```
 prints:
 ```
@@ -32,7 +33,7 @@ As seasoned regexperts know, there is no good replacements for regex negative lo
 My sincere hope is that these tools help coders develop code more efficiently that's clearer to read and understand in their primary language of choice.
 At the very least, maybe this can serve as a simple how-to CLI code in a new language since these go far beyond simple Hello World examples.
 
-### Contribution Guidelines
+### Contributions
 
-Additions should be added to the regexpr-test.sh BASH script to fully test it.
-Please also add the dependency check so the script can gracefully skip the addition if a missing dependency and report why.
+Additions should be added to the regexpr-test.sh BASH script to fully test.
+Please also add the dependency check near the top so the script can gracefully skip the addition if a missing dependency and report why.
