@@ -1,6 +1,6 @@
 #!/bin/bash
 ########################################################################################
-# $Id: Regexpr Tester  ver 1.7e
+# $Id: Regexpr Tester  ver 1.8
 #
 # USAGE:
 # ./regexpr-test.sh
@@ -25,9 +25,12 @@
 #             source Luke (.java file :) Updated java source to be run in subshell for
 #             java versions that don't support path to class (src/jregexpr/jregexpr).
 # 2024/09/26: Reverted the java dependency check back to the class, since src no longer
-#             working on RHEL8. Moved C++ down; regex still doesn't support lookarounds.
+#             working on RHEL8. Moved C++17 down; regex still doesn't support lookarounds.
+# 2024/12/11: Bumped Qt ver to 6.8.1, moved Go dir to gregexpr2, and changed python
+#             module from "re" to more advanced "regex". Updated JS to work for the
+#             updated nodejs versions.
 #
-# Uncopyright (u)2019-2024, Shaun Green
+# Uncopyright (u)2019-2025, Shaun Green
 ########################################################################################
 
 # Required for using regex alternation in BASH
@@ -184,6 +187,7 @@ vf[6]='vf=pp=fd:c,crop'
 vf[7]='vf=hue,pp=fd:c,crop'
 vf[8]='vf=crop,pp=fd:c'
 vf[9]='vf=pp=fd:c'
+# Basic regex using alternation
 rx='pp=fd:c,|\/fd:c|fd:c\/|(\/|,?(vf=)?pp=)fd:c$'
 # Rust version regex (no support for escaped "/")
 #rrx='pp=fd:c,|/fd:c|fd:c/|(/|,?(vf=)?pp=)fd:c$'
@@ -203,12 +207,12 @@ for f in "${vf[@]}"; do
 	#
 	fr=`grep -Pom1 "$rx" <<< "$f"`
 	echo "Removed:       $fr"
-	#echo "Filter removed:"`./gregexpr "$rx" "$f" -m`
+	#echo "Filter removed:"`./gregexpr2 "$rx" "$f" -m`
 	#echo "Filter removed:"`./qregexpr -m -n "$rx" "$f"`
 	#echo "Filter removed:"`./regexpr "$rx" "$f" -m`
 	#echo "Filter removed: $(perl -pe "(\$_)=/($rx)/" <<< "$f")"
-	# This only needs to be here for mcedit BASH code syntax if previous perl statement used
-	# The Perl match syntax seems difficult, so added a -m switch to do same:
+	# This only needs to be here for mcedit BASH code syntax if previous perl statement is used
+	# The Perl match syntax seems difficult, so added a -m switch to do same.
 	echo
 	#
 	# vf deint filter removals
@@ -217,7 +221,7 @@ for f in "${vf[@]}"; do
 	fr="${fr//\\/\\\\}"
 	echo "BASH ParEx:    ${f//$fr}"
 	# Binary should work on most modern 64-bit Linux distros
-	[ -n "$Qt" ] && echo "$Qt:    "`./qregexpr -n "$rx" "$f"`
+	[ -n "$Qt" ] && echo "$Qt:      "`./qregexpr -n "$rx" "$f"`
 	# Cannot handle \K (keep out of match) in regex and backticks "`" in text
 	[ -n "$golang" ] && b="${golang//pr/p}" && echo "Go ${b#g}:    "`./$golang "$rx" "$f"`
 	[ -n "$py" ] && echo "Python:        "`./pregexpr.py "$rx" "$f"`

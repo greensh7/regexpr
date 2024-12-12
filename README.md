@@ -19,7 +19,7 @@ Each of these regexpr tools can be used independently, and were written to accep
 Several languages don't have full PCRE2 compliant regex support for lookarounds, e.g. C++ STL (see the tests/HelloWorld.sh example).
 Additionally, several languages use $1 instead of \1 for first (and all) backreferences, e.g. Go, Java, etc:
 ```
-go run src/gregexpr/gregexpr.go '(\S+)\s(\S+)' 'Hello World' '$2 $1'
+go run src/gregexpr2/gregexpr.go '(\S+)\s(\S+)' 'Hello World' '$2 $1'
 ```
 prints:
 ```
