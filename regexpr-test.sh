@@ -224,8 +224,8 @@ for f in "${vf[@]}"; do
 	[ -n "$Qt" ] && echo "$Qt:      "`./qregexpr -n "$rx" "$f"`
 	# Cannot handle \K (keep out of match) in regex and backticks "`" in text
 	[ -n "$golang" ] && b="${golang//pr/p}" && echo "Go ${b#g}:    "`./$golang "$rx" "$f"`
-	[ -n "$py" ] && echo "Python:        "`./pregexpr.py "$rx" "$f"`
-	#echo "Python:     "`$py -c "import re; print(re.sub(r'$rx','','$f'))"`
+	[ -n "$py" ] && echo "Python regex:  "`./pregexpr.py "$rx" "$f"`
+	#echo "Python re:  "`$py -c "import re; print(re.sub(r'$rx','','$f'))"`
 	[ -n "$jl" ] && echo "Julia:         "`./jlregexpr.jl "$rx" "$f"`
 	[ -n "$JS" ] && echo "Javascript:    "`$JS ./jsregexpr.js "$rx" "$f"`
 	[ -n "$Perl" ] && echo "Perl:          "`perl -pe "s/$rx//" <<< "$f"`

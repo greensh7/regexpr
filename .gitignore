@@ -1,13 +1,11 @@
 *.code-workspace
 tests/*.log
 tests/*tfvars*
-cregexpr
-gregexpr2
 jregexpr.class
-qregexpr
-rregexpr
 src/rregexpr/.git
-src/rregexpr
 src/rregexpr/target
 src/qregexpr/Makefile
 *.pro.user*
+src/cregexpr/cregexpr
+src/gregexpr2/gregexpr2
+src/qregexpr/qregexpr

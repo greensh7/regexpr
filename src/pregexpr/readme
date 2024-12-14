@@ -1,0 +1,2 @@
+Python regex module installation:
+sudo apt install python3-regex

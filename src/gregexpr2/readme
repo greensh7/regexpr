@@ -1,0 +1,18 @@
+Example install of dlclark's Go regexp2 module and gregexpr2 build:
+1) cd ~/devel
+2) git clone https://github.com/dlclark/regexp2
+3) Setup .bashrc with go env:
+    go env -w GOROOT=$HOME/devel/go
+    go env -w GOPATH=$HOME/go
+    go env -w GOSUMDB="off"
+    . ~/.bashrc
+4) mkdir ~/go && cd ~/go
+5) go get github.com/dlclark/regexp2 (latest ver 1.11.4 on 12/13/24)
+6) cd ~/devel/regexpr/src/gregexpr2
+7) go mod init github.com/dlclark/regexp2/gregexpr2
+   go mod tidy
+8) go run gregexpr2.go (test and resolve errors)
+8) install latest upx binary (4.2.4 on 12/13/24) e.g. ~/bin or /usr/local/bin
+9) ./build.sh (build static binary)
+10) cd ../..
+    ln -sf src/gregexpr2/gregexpr2 gregexpr2 (setup symlink for testing)
