@@ -1,18 +1,22 @@
-Example install of dlclark's Go regexp2 module and gregexpr2 build:
+Example install of latest Go with dlclark's Go regexp2 module and gregexpr2 build:
+
+0) Install latest go version into ~/devel
 1) cd ~/devel
 2) git clone https://github.com/dlclark/regexp2
 3) Setup .bashrc with go env:
     go env -w GOROOT=$HOME/devel/go
-    go env -w GOPATH=$HOME/go
+    go env -w GOPATH=$HOME/devel/gopath
     go env -w GOSUMDB="off"
     . ~/.bashrc
-4) mkdir ~/go && cd ~/go
-5) go get github.com/dlclark/regexp2 (latest ver 1.11.4 on 12/13/24)
-6) cd ~/devel/regexpr/src/gregexpr2
-7) go mod init github.com/dlclark/regexp2/gregexpr2
+4) mkdir ~/devel/gopath && cd ~/go
+5) rsync -av ~/devel/regexp2 ~/devel/go/src
+6) go install github.com/dlclark/regexp2@latest (ver 1.11.4 on 12/13/24)
+7) cd ~/devel/regexpr/src/gregexpr2
+8) Remove go.mod and go.sum (if the latest ver is >1.11.4). If not, goto 10)
+9) go mod init github.com/dlclark/regexp2/gregexpr2
    go mod tidy
-8) go run gregexpr2.go (test and resolve errors)
-8) install latest upx binary (4.2.4 on 12/13/24) e.g. ~/bin or /usr/local/bin
-9) ./build.sh (build static binary)
-10) cd ../..
+10) go run gregexpr2.go (test and resolve errors)
+11) install latest upx binary (4.2.4 on 12/13/24) e.g. ~/bin or /usr/local/bin
+12) ./build.sh (build static binary)
+13) cd ../..
     ln -sf src/gregexpr2/gregexpr2 gregexpr2 (setup symlink for testing)
