@@ -4,14 +4,14 @@
 
 ### Description
 
-Welcome aboard fellow regexp developers, padawans and regexperts alike! This is where you will find scripts which you are free to contribute to.
-You can contribute by enhancing the existing sources (several need the "-m" arg for match) or simply submitting your own scripts in tests/ written in any language old or new, which you think would be amazing for other people to see.
+Welcome aboard fellow regexp developers, padawans and regexperts alike! This is where you will find a variety of codes which you are free to contribute to.
+You can contribute by enhancing the existing sources (several need the "-m" arg for match) or simply submitting your own scripts in the tests/ path, written in any language old or new, which you think would be amazing for other people to see.
 
 ### Instructions
 
-- Compile each of the src/* directories that can be built, skipping all the scripts, e.g. Python pregexpr.py, JS jsregexpr, Java jregexpr.java, etc.
+- Compile each of the src/* directories that build app binaries, skipping all the scripts, e.g. Python pregexpr.py, JS jsregexpr, Java jregexpr.java, etc.
 - Move each one in turn to the main path (../..) or setup symlinks like the scripts.
-- Launch regexpr-test.sh and the output should report any missing tools or dependencies for scripts.
+- Launch regexpr-test.sh and the output should report any missing tools or dependencies.
 
 ### Notes
 
@@ -30,7 +30,7 @@ World Hello
 Regex is a powerful text processing language and often replaces using several conditionals when developing typical input validation and text parsing functions.
 As seasoned regexperts know, there is no good replacements for regex negative lookbehinds and lookaheads.
 
-My sincere hope is that these tools help coders develop code more efficiently that's clearer to read and understand in their primary language of choice.
+My sincere hope is that these tools help coders develop more efficient code that's both easier to maintain and clearer to read and understand in their primary language of choice.
 At the very least, maybe this can serve as a simple how-to CLI code in a new language since these go far beyond simple Hello World examples.
 
 ### Contributions
