@@ -30,7 +30,7 @@ World Hello
 Regex is a powerful text processing language and often replaces using several conditionals when developing typical input validation and text parsing functions.
 As seasoned regexperts know, there is no good replacements for regex negative lookbehinds and lookaheads.
 
-My sincere hope is that these tools help coders develop more efficient code that's both easier to maintain and clearer to read and understand in their primary language of choice.
+My sincere hope is that these tools help developers develop more efficient code that's both easier to maintain and clearer to read and understand in their primary language of choice.
 At the very least, maybe this can serve as a simple how-to CLI code in a new language since these go far beyond simple Hello World examples.
 
 ### Contributions
