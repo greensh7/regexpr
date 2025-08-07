@@ -1,6 +1,6 @@
 TARGET = cregexpr
 
-CONFIG += c++11 console warn_on
+CONFIG += c++20 console warn_on
 #CONFIG += debug
 CONFIG += release static
 CONFIG -= qt

@@ -1,9 +1,9 @@
-lessThan(QT_MAJOR_VERSION, 5): error(This project requires Qt 5 or later)
+lessThan(QT_MAJOR_VERSION, 6): error(This project requires Qt 6 or later)
 
 TARGET = qregexpr
 
 QT = core
-CONFIG   += c++17 warn_on console
+CONFIG   += c++20 warn_on console
 #CONFIG   += debug
 CONFIG   += release static
 #CONFIG   += release

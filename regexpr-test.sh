@@ -1,6 +1,6 @@
 #!/bin/bash
 ########################################################################################
-# $Id: Regexpr Tester  ver 1.8
+# $Id: Regexpr Tester  ver 1.8a
 #
 # USAGE:
 # ./regexpr-test.sh
@@ -29,6 +29,7 @@
 # 2024/12/11: Bumped Qt ver to 6.8.1, moved Go dir to gregexpr2, and changed python
 #             module from "re" to more advanced "regex". Updated JS to work for the
 #             updated nodejs versions.
+# 2025/08/06: Bumped Qt ver to 6.9.1, fixed C++, Java ver reporting
 #
 # Uncopyright (u)2019-2025, Shaun Green
 ########################################################################################
@@ -70,7 +71,7 @@ if ! command -v ./qregexpr >/dev/null 2>&1; then
 	echo "\"qregexpr\" Qt Regexp Replacer not found"
 	Qt=""
 fi
-Cpp=`grep -Po '\s+\K[\d\.]+' <<< $(cc --version)`
+Cpp=`grep -Po '\d+\.\d+\.\d+(?=[\s-])' <<< $(cc --version)`
 # Check Cpp version is >= 4.9.0, the min for C++11 regex
 Cpp+=$'\n'4.9.0
 CppMin=`sort -r <<< "$Cpp" | head -n1`
@@ -123,22 +124,9 @@ else
 	echo "\"nodejs\" or \"node\" Javascript package dependency not met"
 fi
 if [ -n "$JS" ] && ! command -v ./jsregexpr.js >/dev/null 2>&1; then
-	echo
-	echo "\"jsregexpr.js\" Javascript Regexp Replacer not found"
-	JS=""
-fi
-if ! command -v java >/dev/null 2>&1; then
-	echo
-	echo "\"default-jre\" OpenJDK JRE or other JRE package dependency not met"
-elif java --version &> /dev/null; then
-	Java=`grep -Pom1 '\d+\.[\d._b]+' <<< java --version`
-elif java -version &> /dev/null; then
-	Java=java
-fi
-if [ -n "$Java" ] && [ ! -s ./jregexpr.class ]; then
-	echo
-	echo "\"jregexpr.class\" Java Regexp Replacer not found"
-	Java=""
+		echo
+		echo "\"jsregexpr.js\" Javascript Regexp Replacer not found"
+		JS=""
 fi
 if ! command -v sed >/dev/null 2>&1; then
 	echo
@@ -175,6 +163,22 @@ else
 		echo "Older GLIBC version detected; recompile a static \"rregexpr\""
 	fi
 fi
+if ! command -v java >/dev/null 2>&1; then
+	echo
+	echo "\"default-jre\" OpenJDK JRE or other JRE package dependency not met"
+elif java --version &> /dev/null; then
+	Java=`grep -Pom1 '\d+\.[\d._b]+' <<< $(java --version)`
+elif java -version &> /dev/null; then
+	Java=java
+fi
+if [ -n "$Java" ]; then
+	Java="Java ${Java%%$'\n'*}"
+fi
+if [ -n "$Java" ] && [ ! -s ./jregexpr.class ]; then
+	echo
+	echo "\"jregexpr.class\" Java Regexp Replacer not found"
+	Java=""
+fi
 
 
 # Filters
@@ -195,6 +199,19 @@ rx='pp=fd:c,|\/fd:c|fd:c\/|(\/|,?(vf=)?pp=)fd:c$'
 #rx='(?<=vf=)pp=fd:c(,|\/)?|(,|\/)?(vf=)?(pp=)?fd:c(?=,|\/|$)'
 #rx='(\/|,?pp=)fd:c$|pp=fd:c,|fd:c\/|\/fd:c'
 #rx=',?pp=fd:c($|[^\/,])|pp=fd:c,|fd:c\/|\/fd:c'
+
+# Filters with "\" instead of "/"
+#vf[1]='vf=pp=fd:c\hb\vb\fd\c'
+#vf[2]='vf=pp=hb\fd:c\vb'
+#vf[3]='vf=pp=hb\vb\fd:c'
+#vf[4]='vf=pp=hb\vb\fd:c,crop'
+#vf[5]='vf=crop,pp=fd:c\hb\vb'
+#vf[6]='vf=pp=fd:c,crop'
+#vf[7]='vf=hue,pp=fd:c,crop'
+#vf[8]='vf=crop,pp=fd:c'
+#vf[9]='vf=pp=fd:c'
+#rx='pp=fd:c,|\\fd:c|fd:c\\|(\\|,?(vf=)?pp=)fd:c$'
+
 
 f=""
 count=1
@@ -236,10 +253,10 @@ for f in "${vf[@]}"; do
 	echo "Awk:           "`awk '{sub(/'$rx'/,"")}; 1' <<< "$f"`
 	# Comment 2 that may not support back references in the regex, e.g. '(\d)(\1+)?'
 	# but also note that the references may not be \1 and use $1 instead
-	[ -n "$Java" ] && echo "Java:          "`( cd src/jregexpr; java jregexpr "$rx" "$f" )`
+	[ -n "$Java" ] && echo "$Java:   "`( cd src/jregexpr; java jregexpr "$rx" "$f" )`
 	[ -n "$Rust" ] && echo "Rust:          "`./rregexpr "$rx" "$f"`
 
-((++count))
+	((++count))
 done
 
 exit 0
