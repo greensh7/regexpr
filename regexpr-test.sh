@@ -1,6 +1,6 @@
 #!/bin/bash
 ########################################################################################
-# $Id: Regexpr Tester  ver 1.8a
+# $Id: Regexpr Tester  ver 1.8b
 #
 # USAGE:
 # ./regexpr-test.sh
@@ -30,6 +30,7 @@
 #             module from "re" to more advanced "regex". Updated JS to work for the
 #             updated nodejs versions.
 # 2025/08/06: Bumped Qt ver to 6.9.1, fixed C++, Java ver reporting
+# 2025/08/29: Fixed C++ detections, and improved to report all C++ matches
 #
 # Uncopyright (u)2019-2025, Shaun Green
 ########################################################################################
@@ -71,15 +72,21 @@ if ! command -v ./qregexpr >/dev/null 2>&1; then
 	echo "\"qregexpr\" Qt Regexp Replacer not found"
 	Qt=""
 fi
-Cpp=`grep -Po '\d+\.\d+\.\d+(?=[\s-])' <<< $(cc --version)`
-# Check Cpp version is >= 4.9.0, the min for C++11 regex
-Cpp+=$'\n'4.9.0
-CppMin=`sort -r <<< "$Cpp" | head -n1`
-if [ "$CppMin" != "4.9.0" ]; then
-	echo "C++ regex req GCC >= 4.9.0 with min C++11 enabled"
+if ! command -v cc >/dev/null 2>&1; then
+	echo
+	echo "\"cc\" GCC toolchain not found"
 	Cpp=""
 else
-	Cpp="C++ ${Cpp%%$'\n'*}"
+	Cpp=4.9.0$'\n'
+	Cpp+=`grep -Pom1 '\d+\.\d+\.\d+(?=[\s]|$)' <<< $(cc --version)`
+	# Check Cpp version is >= 4.9.0, the min for C++11 regex
+	CppMin=`sort -n <<< "$Cpp" | head -n1`
+	if [ "$CppMin" != "4.9.0" ]; then
+		echo "C++ regex req GCC >= 4.9.0 with min C++11 enabled"
+		Cpp=""
+	else
+		Cpp="C++ ${Cpp##*$'\n'}"
+	fi
 fi
 if ! command -v ./cregexpr >/dev/null 2>&1; then
 	echo
