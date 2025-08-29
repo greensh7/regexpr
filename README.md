@@ -16,8 +16,8 @@ You can contribute by enhancing the existing sources (several need the "-m" arg 
 ### Notes
 
 Each of these regexpr tools can be used independently, and were written to accept identical regular expressions.
-Several languages don't have full PCRE2 compliant regex support for lookarounds, e.g. C++ STL (see the tests/HelloWorld.sh example).
-Additionally, several languages use $1 instead of \1 for first (and all) backreferences, e.g. Go, Java, etc:
+Several languages don't have full PCRE2 compliant regex support for lookarounds, e.g. C++ STL (see tests/HelloWorld.sh).
+Additionally, several languages use $1 instead of \1 for first (and all) backreferences, e.g. Go, C++, Java, etc:
 ```
 cd src/gregexpr2
 go run gregexpr2.go '(\S+)\s(\S+)' 'Hello World' '$2 $1'
@@ -25,6 +25,15 @@ go run gregexpr2.go '(\S+)\s(\S+)' 'Hello World' '$2 $1'
 prints:
 ```
 World Hello
+```
+
+To capture the double with a max of 32 digits incl decimal point from the key value with data following:
+```
+./cregexpr '.+=\s*(-?[\d.]{1,32})[\d.]*/.*' 'key = -123456789012345678901234567.89012345/other_data' '$1'
+```
+prints:
+```
+-123456789012345678901234567.8901
 ```
 
 Regex is a powerful text processing language and often replaces using several conditionals when developing typical input validation and text parsing functions.
