@@ -38,7 +38,7 @@ int main (int argc, char *argv[])
 {
 #if __cplusplus < 202002L
 	cout << endl;
-	cout << "Clang++ does not fully support C++20, or is not configured for it." << endl;
+	cout << "C++20 is not supported or not configured." << endl;
 #endif
 
     if (argc<3 || argc>5)
