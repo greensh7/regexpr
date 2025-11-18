@@ -36,14 +36,9 @@ void test_regex_search(regex rx, const string &input, const string &r, bool b)
 
 int main (int argc, char *argv[])
 {
-#define GCC_VERSION (__GNUC__ * 10000 \
-	+ __GNUC_MINOR__ * 100 \
-	+ __GNUC_PATCHLEVEL__)
-
-#if GCC_VERSION < 40900
-	#error
-	#error GCC/G++ version does not meet the minimum (4.9.0)
-	#error to compile with C++11 support.
+#if __cplusplus < 202002L
+	cout << endl;
+	cout << "Clang++ does not fully support C++20, or is not configured for it." << endl;
 #endif
 
     if (argc<3 || argc>5)
