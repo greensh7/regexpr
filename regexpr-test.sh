@@ -245,7 +245,7 @@ for f in "${vf[@]}"; do
 	fr="${fr//\\/\\\\}"
 	echo "BASH ParEx:    ${f//$fr}"
 	# Binary should work on most modern 64-bit Linux distros
-	[ -n "$Qt" ] && echo "$Qt:      "`./qregexpr -n "$rx" "$f"`
+	[ -n "$Qt" ] && echo "$Qt:     "`./qregexpr -n "$rx" "$f"`
 	# Cannot handle \K (keep out of match) in regex and backticks "`" in text
 	[ -n "$golang" ] && b="${golang//pr/p}" && echo "Go ${b#g}:    "`./$golang "$rx" "$f"`
 	[ -n "$py" ] && echo "Python regex:  "`./pregexpr.py "$rx" "$f"`

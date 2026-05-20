@@ -6,6 +6,19 @@
 
 Welcome aboard fellow regexp developers, padawans and regexperts alike! This is where you will find a variety of codes which you are free to contribute to.
 You can contribute by enhancing the existing sources (several need the "-m" arg for match) or simply submitting your own scripts in the tests/ path, written in any language old or new, which you think would be amazing for other people to see.
+The languages with known minimum version requirements contained here include:
+
+C/C++/Qt (req >= C++20 std)
+Go
+Java
+JavaScript
+Python (req >= 3)
+Rust
+Julia
+BASH (Bourne Again SHell, req >= 4)
+Perl (req >= 5)
+sed (Stream Editor)
+AWK (Gnu and others)
 
 ### Instructions
 
