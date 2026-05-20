@@ -1,0 +1,7 @@
+TARGET=cregexpr
+$(TARGET): $(TARGET).cpp crash_reporter.h
+	clang++ -std=c++23 -Wall -g -rdynamic -O0 $(TARGET).cpp -o $(TARGET)
+	#--gcc-toolchain=/opt/rh/gcc-toolset-15/root/usr -o $(TARGET)
+
+clean:
+	rm -f $(TARGET)

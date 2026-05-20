@@ -1,8 +1,8 @@
 TARGET=cregexpr
-$(TARGET):
-	clang++ -std=c++20 -Wall -O3 -static -o $(TARGET) $(TARGET).cpp
+$(TARGET): $(TARGET).cpp crash_reporter.h
+	clang++ -std=c++23 -Wall -static -O3 $(TARGET).cpp -o $(TARGET)
 	strip --strip-unneeded $(TARGET)
-	upx --best $(TARGET)
+	#upx --best $(TARGET)
 
 clean:
-	rm $(TARGET)
+	rm -f $(TARGET)

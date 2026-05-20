@@ -1,13 +1,15 @@
 // cregexpr.cpp
 // regex_replace example
 //
-// Uncopyright (u)2019-2025, Shaun Green
+// Uncopyright (u)2019-2026, Shaun Green
 
 #include <iostream>
 #include <regex>
 #include <string>
+#include "crash_reporter.h"
 
 using namespace std;
+
 
 void test_regex_search(regex rx, const string &input, const string &r, bool b)
 {
@@ -34,19 +36,17 @@ void test_regex_search(regex rx, const string &input, const string &r, bool b)
 }
 
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-#if __cplusplus < 202002L
-	cout << endl;
-	cout << "C++20 is not supported or not configured." << endl;
-#endif
-
-    if (argc<3 || argc>5)
+	if (argc<3 || argc>5)
 	{
 		cout << "Regexp Replacer 1.4" << endl;
 		cout << "Replaces text using a regular expression pattern and replace text (optional)" << endl;
 		cout << endl;
 		cout << "Usage: ./cregexpr regexp text [replace text] [-m]" << endl;
+
+		// Quick testing trigger (Uncomment this line to test the crash output instantly):
+		// int *crash_ptr = nullptr; *crash_ptr = 42;
 		return 1;
 	}
 
